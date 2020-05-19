@@ -38,11 +38,13 @@ jobs:
       - name: Copy Directory
         #if: steps.version-updated.outputs.has-updated
         uses: MadaraUchiha/copy-action@0.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           # Source file
-          source: './project'
+          source: '-r ./project'
           # Target file
-          target: './public'
+          target: 'public'
 
       # Zip
       - name: Zip release
