@@ -11,4 +11,4 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Run local release
-      uses: ./release
+      uses: ./.github/actions/release
