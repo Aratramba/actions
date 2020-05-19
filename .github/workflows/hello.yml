@@ -6,7 +6,7 @@ name: Hello
 # events but only for the master branch
 on:
   repository_dispatch:
-    types: [hello]
+    types: [hello-command]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
