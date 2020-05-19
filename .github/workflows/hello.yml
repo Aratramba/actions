@@ -5,10 +5,8 @@ name: CI
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  repository_dispatch:
+    types: [hello-local-command]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -19,13 +17,21 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-    # Setup node
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '12'
+      - name: Add reaction
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+          reaction-type: hooray
 
-    # Runs a single command using the runners shell
-    - name: Run a one-line script
-      run: echo ${{ github.event.client_payload.slash_command.args }}
+      - name: Create URL to the run output
+        id: vars
+        run: echo ::set-output name=run-url::https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.client_payload.github.payload.issue.number }}
+          body: |
+            Hello @${{ github.event.client_payload.github.actor }}!
+            [Click here to see the command run output][1]
+            [1]: ${{ steps.vars.outputs.run-url }}
