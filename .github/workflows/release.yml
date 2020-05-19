@@ -49,7 +49,7 @@ jobs:
       # Zip
       - name: Zip
         run: |
-          zip --junk-paths export 'public/' -x '*.ignore.md*'
+          zip --junk-paths -r export project -x '*.ignore.md*'
 
       - name: Create a Release
         #if: steps.version-updated.outputs.has-updated
