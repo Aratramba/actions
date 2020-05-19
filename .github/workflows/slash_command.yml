@@ -19,6 +19,6 @@ jobs:
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           reaction-token: ${{ secrets.GITHUB_TOKEN }}
-          commands: hello-local-command
+          commands: hello
           permission: none
           issue-type: issue
