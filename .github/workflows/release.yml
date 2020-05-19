@@ -35,21 +35,20 @@ jobs:
           node-version: '12.x'
 
       # Copy project dir
-      - name: Copy Directory
-        #if: steps.version-updated.outputs.has-updated
-        uses: MadaraUchiha/copy-action@0.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          # Source file
-          source: '-r ./project'
-          # Target file
-          target: 'public'
-          
+      - name: Copy project/ to export/
+        run: |
+          cp -r project/ export/
+      
+      # Remove unused files
+      - name: Cleanup export/
+        run: |
+          rm export/ignore.md
+          rm export/ignore.txt
+
       # Zip
       - name: Zip
         run: |
-          zip --junk-paths -r export project -x '*.ignore.md*'
+          zip --junk-paths -r export export -x
 
       - name: Create a Release
         #if: steps.version-updated.outputs.has-updated
