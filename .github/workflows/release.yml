@@ -48,7 +48,7 @@ jobs:
       # Zip
       - name: Zip
         run: |
-          zip --junk-paths -r export export -x
+          zip --junk-paths -r export export
 
       - name: Create a Release
         #if: steps.version-updated.outputs.has-updated
