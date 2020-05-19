@@ -17,15 +17,15 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        
+      # Check version updated
       - name: Package Version Updated
         uses: MontyD/package-json-updated-action@1.0.1
         id: version-updated
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-        if: steps.version-updated.outputs.has-updated
 
       # Node
       - name: Setup Node
