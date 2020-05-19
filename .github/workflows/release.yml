@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Package Version Updated
         uses: MontyD/package-json-updated-action@1.0.1
-        id: version_updated
+        id: version-updated
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -30,7 +30,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           # The filter clause that you would like to use to filter your jobs
-          FILTER: '${{ steps.version-updated.outputs.has-updated }}'
+          FILTER: 'steps.version-updated.outputs.has-updated'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
