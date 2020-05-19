@@ -45,16 +45,11 @@ jobs:
           source: '-r ./project'
           # Target file
           target: 'public'
-
+          
       # Zip
-      - name: Zip release
-        #if: steps.version-updated.outputs.has-updated
-        uses: TheDoctor0/zip-release@v0.3.0
-        with:
-          filename: export.zip
-          path: .
-          directory: public
-          exclusions: public/ignore.md
+      - name: Zip
+        run: |
+          zip --junk-paths export 'public/' -x '*.ignore.md*'
 
       - name: Create a Release
         #if: steps.version-updated.outputs.has-updated
