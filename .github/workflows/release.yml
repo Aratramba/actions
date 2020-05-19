@@ -27,7 +27,7 @@ jobs:
         
       # Get version
       - name: Get version
-        if: "!contains(steps.log.outputs.message, 'export ')"
+        if: "contains(steps.log.outputs.message, 'release ')"
         id: get-version
         run: |
           VERSION=$(grep '"version"' package.json | cut -d '"' -f 4)
@@ -43,25 +43,25 @@ jobs:
 
       # Copy project dir
       - name: Copy project/ to export/
-        if: "!contains(steps.log.outputs.message, 'export ')"
+        if: "contains(steps.log.outputs.message, 'release ')"
         run: |
           cp -r project/ export/
       
       # Remove unused files
       - name: Cleanup export/
-        if: "!contains(steps.log.outputs.message, 'export ')"
+        if: "contains(steps.log.outputs.message, 'release ')"
         run: |
           rm export/ignore.md
           rm export/ignore.txt
 
       # Zip
       - name: Zip
-        if: "!contains(steps.log.outputs.message, 'export ')"
+        if: "contains(steps.log.outputs.message, 'release ')"
         run: |
           zip --junk-paths -r export export
 
       - name: Create a Release
-        if: "!contains(steps.log.outputs.message, 'export ')"
+        if: "contains(steps.log.outputs.message, 'release ')"
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -75,7 +75,7 @@ jobs:
 
       # Upload  
       - name: Upload a Release Asset
-        if: "!contains(steps.log.outputs.message, 'export ')"
+        if: "contains(steps.log.outputs.message, 'release ')"
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1.0.2
         env:
@@ -88,7 +88,7 @@ jobs:
       
       # Get release download url
       - name: Download url
-        if: "!contains(steps.log.outputs.message, 'export ')"
+        if: "contains(steps.log.outputs.message, 'release ')"
         run: |
           echo ${{ steps.upload-release-asset.outputs.browser_download_url }}
         
