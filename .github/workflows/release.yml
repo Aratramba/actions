@@ -23,26 +23,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Stop action
-      - name: Stop Action Filter
-        uses: Chocrates/stop-action-filter@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          # The filter clause that you would like to use to filter your jobs
-          FILTER: 'steps.version-updated.outputs.has-updated'
-
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+        if: steps.version-updated.outputs.has-updated
 
       # Node
       - name: Setup Node
+        if: steps.version-updated.outputs.has-updated
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
 
       # Copy project dir
       - name: Copy Directory
+        if: steps.version-updated.outputs.has-updated
         uses: MadaraUchiha/copy-action@0.0.1
         with:
           # Source file
@@ -52,6 +46,7 @@ jobs:
 
       # Zip
       - name: Zip release
+        if: steps.version-updated.outputs.has-updated
         uses: TheDoctor0/zip-release@v0.3.0
         with:
           filename: export.zip
@@ -60,6 +55,7 @@ jobs:
           exclusions: public/ignore.md
 
       - name: Create a Release
+        if: steps.version-updated.outputs.has-updated
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -73,6 +69,7 @@ jobs:
 
       # Upload  
       - name: Upload a Release Asset
+        if: steps.version-updated.outputs.has-updated
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1.0.2
         env:
