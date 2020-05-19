@@ -15,15 +15,15 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+        
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        
       # Read commit message
       - name: Get commit message
         id: get-commit-message
         run: |
           echo "::set-output name=message::$(git log --no-merges -1 --oneline)"
-        
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-        if: "!contains(steps.log.outputs.message, 'export ')"
         
       # Get version
       - name: Get version
